@@ -26,7 +26,7 @@ def load_raw_edf(file_id, signal_name):
     :param signal_name: type of the signal of the recording. String : 'HR' or 'SpO2' for example
     :return: np array. The first item is a vector with the timestamps, and the second is the values of the signal
     """
-    edf_file = pyedflib.EdfReader('../mesa_data/polysomnography/edfs/mesa-sleep-' + file_id + '.edf')
+    edf_file = pyedflib.EdfReader('mesa_data/polysomnography/edfs/mesa-sleep-' + file_id + '.edf')
     signal_labels = edf_file.getSignalLabels()
 
     col_index = signal_labels.index(signal_name)  # selection of the index corresponding to the wanted signal
@@ -51,7 +51,7 @@ def load_raw(file_id, signal_type):
     :param signal_type: string : 'HR' or 'SpO2' for example
     :return:np array. The first item is a vector with the timestamps, and the second is the values of the signal
     """
-    file_name = '../mesa_data/polysomnography/new_txts/' + file_id + '-' + signal_type
+    file_name = 'mesa_data/polysomnography/new_txts/' + file_id + '-' + signal_type
     array = pd.read_csv(file_name, delimiter=' ')
     data = array.values  # data[0] is the time vector and data[1] the signal
     return data
@@ -65,7 +65,7 @@ def write_new_txt(t, sig, file_id, sig_name):
     :param file_id: string. id of the recording of the signal (4 digits string)
     :param sig_name: string. type of signal ('HR' or 'SpO2' for example
     """
-    file_name = '../mesa_data/polysomnography/new_txts/' + file_id + '-' + sig_name
+    file_name = 'mesa_data/polysomnography/new_txts/' + file_id + '-' + sig_name
     txt_file = open(file_name, 'w')
     for i in range(len(t) - 1):
         txt_file.write(str(t[i]) + ' ' + str(sig[i]) + '\n')

@@ -22,9 +22,9 @@ def crossval_test_k():
         all_scores = []
         for s in range(3):  # this loop is on the 3 selections of epochs that was made due to the class imbalance
             print('s = ' + str(s), end=' ')
-            X = np.genfromtxt('../features_data/X_' + str(s) + '.csv', delimiter=',')  # loading of the features saved in
+            X = np.genfromtxt('features_data/X_' + str(s) + '.csv', delimiter=',')  # loading of the features saved in
             # a csv file
-            y = np.genfromtxt('../ffeatures_data/y_' + str(s) + '.csv', delimiter=',')
+            y = np.genfromtxt('features_data/y_' + str(s) + '.csv', delimiter=',')
             scores = cs.k_cross_val_svc(X, y, k=k)  # computation of the cross-validation.
             all_scores.extend(scores)  # the scores for the different epoch selections and the k folds are all kept in
             # 1 array (so 3*k scores)
@@ -47,8 +47,8 @@ def svc_parameters_test():
             # (selections of non apneic periods)
             for s in range(3):
                 print('s = ' + str(s), end=' ')
-                X = np.genfromtxt('../features_data/X_' + str(s) + '.csv', delimiter=',')  # loading of the data saved on
-                y = np.genfromtxt('../features_data/y_' + str(s) + '.csv', delimiter=',')  # csv files
+                X = np.genfromtxt('features_data/X_' + str(s) + '.csv', delimiter=',')  # loading of the data saved on
+                y = np.genfromtxt('features_data/y_' + str(s) + '.csv', delimiter=',')  # csv files
                 scores = cs.k_cross_val_svc(X, y, C=C, kernel=kernel)
                 all_scores.extend(scores)
             print(all_scores)
@@ -70,8 +70,8 @@ def rfc_parameters_test():
             # crossvalidation on the 3 datasets(s) (selections of non apneic periods)
             for s in range(3):
                 print('s = ' + str(s), end=' ')
-                X = np.genfromtxt('../features_data/X_' + str(s) + '_no_hypopnea.csv', delimiter=',')  # loading of the data saved on
-                y = np.genfromtxt('../features_data/y_' + str(s) + '_no_hypopnea.csv', delimiter=',')  # csv files
+                X = np.genfromtxt('features_data/X_' + str(s) + '_no_hypopnea.csv', delimiter=',')  # loading of the data saved on
+                y = np.genfromtxt('features_data/y_' + str(s) + '_no_hypopnea.csv', delimiter=',')  # csv files
                 train_scores, test_scores = cs.k_cross_val_rdf(X, y, n_estimators=n, max_depth=md)
                 all_train_scores.extend(train_scores)
                 all_test_scores.extend(test_scores)
@@ -85,9 +85,9 @@ def hr_smoothing_test():
         all_train_scores, all_test_scores = [], []
         for s in range(3):
             print('s = ' + str(s), end=' ')
-            X = np.genfromtxt('../features_data/spo2_SG_smoothing/X_' + str(s) + '_hrs_' + str(hrs)
+            X = np.genfromtxt('features_data/spo2_SG_smoothing/X_' + str(s) + '_hrs_' + str(hrs)
                               + '.csv', delimiter=',')
-            y = np.genfromtxt('../features_data/spo2_SG_smoothing/y_' + str(s) + '_hrs_' + str(hrs)
+            y = np.genfromtxt('features_data/spo2_SG_smoothing/y_' + str(s) + '_hrs_' + str(hrs)
                               + '.csv', delimiter=',')
             train_scores, test_scores = cs.k_cross_val_rdf(X, y, n_estimators=80, max_depth=12)
             all_train_scores.extend(train_scores)
@@ -100,8 +100,8 @@ def hr_raw_data_test():
     all_train_scores, all_test_scores = [], []
     for s in range(3):
         print('s = ' + str(s), end=' ')
-        X = np.genfromtxt('../features_data/spo2_smoothing/X_' + str(s) + 'no_median' + '.csv', delimiter=',')
-        y = np.genfromtxt('../features_data/spo2_smoothing/y_' + str(s) + 'no_median' + '.csv', delimiter=',')
+        X = np.genfromtxt('features_data/spo2_smoothing/X_' + str(s) + 'no_median' + '.csv', delimiter=',')
+        y = np.genfromtxt('features_data/spo2_smoothing/y_' + str(s) + 'no_median' + '.csv', delimiter=',')
         train_scores, test_scores = cs.k_cross_val_rdf(X, y, n_estimators=80, max_depth=12)
         all_train_scores.extend(train_scores)
         all_test_scores.extend(test_scores)
@@ -115,8 +115,8 @@ def different_windows_test():
         all_train_scores, all_test_scores = [], []
         for s in range(3):
             print('s = ' + str(s), end=' ')
-            X = np.genfromtxt('../features_data/windows_tests/X_' + str(s) + 'win' + str(win) + '.csv', delimiter=',')
-            y = np.genfromtxt('../features_data/windows_tests/y_' + str(s) + 'win' + str(win) + '.csv', delimiter=',')
+            X = np.genfromtxt('features_data/windows_tests/X_' + str(s) + 'win' + str(win) + '.csv', delimiter=',')
+            y = np.genfromtxt('features_data/windows_tests/y_' + str(s) + 'win' + str(win) + '.csv', delimiter=',')
             train_scores, test_scores = cs.k_cross_val_rdf(X, y, n_estimators=80, max_depth=12)
             all_train_scores.extend(train_scores)
             all_test_scores.extend(test_scores)

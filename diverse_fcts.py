@@ -160,18 +160,18 @@ def save_data(X, y, seed=None, train_test='train'):
     the argument of the function also contains info required for the naming of the csv files
     """
     if train_test == 'train':
-        np.savetxt('../features_data/X_' + str(seed) + '_with_hypopnea.csv', X, delimiter=',')
-        np.savetxt('../features_data/y_' + str(seed) + '_with_hypopnea.csv', y, delimiter=',')
+        np.savetxt('features_data/X_' + str(seed) + '_with_hypopnea.csv', X, delimiter=',')
+        np.savetxt('features_data/y_' + str(seed) + '_with_hypopnea.csv', y, delimiter=',')
     else:  # train_test == 'test'
-        np.savetxt('../features_data/X_test_' + str(seed) + '_with_hypopnea.csv', X, delimiter=',')
-        np.savetxt('../features_data/y_test_' + str(seed) + '_with_hypopnea.csv', y, delimiter=',')
+        np.savetxt('features_data/X_test_' + str(seed) + '_with_hypopnea.csv', X, delimiter=',')
+        np.savetxt('features_data/y_test_' + str(seed) + '_with_hypopnea.csv', y, delimiter=',')
 
 
 def save_features(all_features_a, all_features_wa):
     random.shuffle(all_features_wa)
 
-    np.savetxt('../features_data/all_features_a_without_hypopnea.csv', all_features_a)
-    np.savetxt('../features_data/all_features_wa_without_hypopnea.csv', all_features_wa)
+    np.savetxt('features_data/all_features_a_without_hypopnea.csv', all_features_a)
+    np.savetxt('features_data/all_features_wa_without_hypopnea.csv', all_features_wa)
 
 
 def correlated_features(features):

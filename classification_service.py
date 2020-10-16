@@ -5,7 +5,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
-from Constants import *
 import matplotlib.pyplot as plt
 
 
@@ -208,8 +207,8 @@ def test_1_rdf():
     all_test_scores = []
     for s in range(3):
         print('s = ' + str(s), end=' ')
-        X = np.genfromtxt('../features_data/X_' + str(s) + '.csv', delimiter=',')
-        y = np.genfromtxt('../features_data/y_' + str(s) + '.csv', delimiter=',')
+        X = np.genfromtxt('features_data/X_' + str(s) + '.csv', delimiter=',')
+        y = np.genfromtxt('features_data/y_' + str(s) + '.csv', delimiter=',')
         train_scores, test_scores = k_cross_val_rdf(X, y, n_estimators=80, max_depth=12)
         all_train_scores.extend(train_scores)
         all_test_scores.extend(test_scores)
@@ -218,10 +217,10 @@ def test_1_rdf():
 
 
 def final_rdf_test():
-    X_train = np.genfromtxt('../features_data/X_1_with_hypopnea.csv', delimiter=',')
-    y_train = np.genfromtxt('../features_data/y_1_with_hypopnea.csv', delimiter=',')
-    X_test = np.genfromtxt('../features_data/X_test_1_with_hypopnea.csv', delimiter=',')
-    y_test = np.genfromtxt('../features_data/y_test_1_with_hypopnea.csv', delimiter=',')
+    X_train = np.genfromtxt('features_data/X_1_with_hypopnea.csv', delimiter=',')
+    y_train = np.genfromtxt('features_data/y_1_with_hypopnea.csv', delimiter=',')
+    X_test = np.genfromtxt('features_data/X_test_1_with_hypopnea.csv', delimiter=',')
+    y_test = np.genfromtxt('features_data/y_test_1_with_hypopnea.csv', delimiter=',')
 
     train_score, test_score = random_forest_test(X_train, X_test, y_train, y_test, n_estimators=80, random_state=1,
                                                  bootstrap=True, criterion='gini', max_depth=12,
@@ -269,10 +268,10 @@ def rdf_pr_curve(X_train, X_test, y_train, y_test, classif_type, n_estimators=80
 
 
 def make_pr(i):
-    X_train = np.genfromtxt('../features_data/212_patients_final_tests/X_1_with_hypopnea.csv', delimiter=',')
-    y_train = np.genfromtxt('../features_data/212_patients_final_tests/y_1_with_hypopnea.csv', delimiter=',')
-    X_test = np.genfromtxt('../features_data/212_patients_final_tests/X_test_1_with_hypopnea.csv', delimiter=',')
-    y_test = np.genfromtxt('../features_data/212_patients_final_tests/y_test_1_with_hypopnea.csv', delimiter=',')
+    X_train = np.genfromtxt('features_data/212_patients_final_tests/X_1_with_hypopnea.csv', delimiter=',')
+    y_train = np.genfromtxt('features_data/212_patients_final_tests/y_1_with_hypopnea.csv', delimiter=',')
+    X_test = np.genfromtxt('features_data/212_patients_final_tests/X_test_1_with_hypopnea.csv', delimiter=',')
+    y_test = np.genfromtxt('features_data/212_patients_final_tests/y_test_1_with_hypopnea.csv', delimiter=',')
 
     pr = rdf_pr_curve(X_train, X_test, y_train, y_test, n_estimators=80, random_state=1,
                       bootstrap=True, criterion='gini', max_depth=12, class_weight={0: 1, 1: i})
@@ -285,8 +284,8 @@ def make_pr(i):
 
 
 def make_k_stratified_samples(ratio, k=4, without_hypopneas=1):
-    name_a = '../features_data/all_features_a_train'
-    name_wa = '../features_data/all_features_wa_train'
+    name_a = 'features_data/all_features_a_train'
+    name_wa = 'features_data/all_features_wa_train'
     if without_hypopneas:
         name_a += '_without_hypopnea'
         name_wa += '_without_hypopnea'
@@ -320,8 +319,8 @@ def make_k_stratified_samples(ratio, k=4, without_hypopneas=1):
 
 
 def make_test_x_y(without_hypopneas=1):
-    name_a = '../features_data/all_features_a_test'
-    name_wa = '../features_data/all_features_wa_test'
+    name_a = 'features_data/all_features_a_test'
+    name_wa = 'features_data/all_features_wa_test'
     if without_hypopneas:
         name_a += '_without_hypopnea'
         name_wa += '_without_hypopnea'

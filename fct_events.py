@@ -13,7 +13,7 @@ def events_list(file_id):
     :param file_id: id of the recording : 4 digits string
     :return: xml.dom.minicompat.Nodelist. List of the events
     """
-    xml_document = minidom.parse('../mesa_data/polysomnography/annotations-events-nsrr/mesa-sleep-' + file_id
+    xml_document = minidom.parse('mesa_data/polysomnography/annotations-events-nsrr/mesa-sleep-' + file_id
                                  + '-nsrr.xml')
     return xml_document.getElementsByTagName('ScoredEvent')
 
