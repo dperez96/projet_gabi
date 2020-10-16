@@ -1,7 +1,6 @@
 from matplotlib.mlab import psd
 import numpy as np
 import sklearn.metrics
-from time import time
 import fct_events as fe
 from Constants import *
 from entropy import entropy
@@ -97,7 +96,7 @@ def mid_ep(window):
 
 
 def compute_epoch_features(ep, hr, spo2, features, apnea_times, feature_val_a, feature_val_wa, apnea_index,
-                          no_apnea_index, epochs):
+                           no_apnea_index, epochs):
     """
     function which for each epoch, checks if it contains an apnea and computes all the features on the epoch. It then
     updates the arrays feature_val_a feature_val_wa, apnea_index and no_apnea_index (for the definition of these arrays,
@@ -153,8 +152,8 @@ def compute_features(file_id, epochs, hr, spo2, features):
     each period given as argument
 
     feature_val_a, feature_val_wa are arrays with the values of the computed features - each row correspond to an epoch,
-    and each column to the value of the feature computed on this epoch. the first list is for epochs containing apnea,
-    and the 2nd for epochs without apnea
+    and each column to the values of the features computed on this epoch. the first array is for epochs containing
+    apnea, and the 2nd for epochs without apnea
     :param file_id: 4 digits string
     :param epochs: list of tuples
     :param hr: list
@@ -174,7 +173,7 @@ def compute_features(file_id, epochs, hr, spo2, features):
     no_apnea_index = []
     for ep in epochs:
         compute_epoch_features(ep, hr, spo2, features, apnea_times, feature_val_a, feature_val_wa, apnea_index,
-                              no_apnea_index, epochs)
+                               no_apnea_index, epochs)
 
     feature_val_wa = feature_val_wa[no_apnea_index]
     # the items with indexes corresponding to epochs with apneas are removed from feature_val_wa
@@ -185,11 +184,16 @@ def compute_features(file_id, epochs, hr, spo2, features):
 
 def make_feature_all(features, train_test):
     """
-    for the features given as argument, computes the features on all epochs of all people
-    included in FILE_IDs in the file Constants
+    for the features given as argument, computes the features on all epochs of all people included in FILE_IDs (in the
+    module 'Constants')
+
+    all_feature_a, all_feature_wa are arrays with the values of the computed features - each row correspond to an epoch,
+    and each column to the values of the features computed on this epoch. the first array is for epochs containing
+    apnea, and the 2nd for epochs without apnea
+
     :param features: list of features (strings)
     :param train_test: boolean. Equals 1 if the features are computed on the training set, and 0 for the validation set.
-    :return:
+    :return: nparrays
     """
     all_feature_a, all_feature_wa = [], []  # a = apnea, wa = without apnea
     print('patient ', end=' ')
@@ -198,7 +202,7 @@ def make_feature_all(features, train_test):
     else:
         file_ids = TEST_FILE_IDs
     for file_id in file_ids:
-        print(str(file_ids.index(file_id)+1) + '/' + str(len(file_ids)), end=' ')
+        print(str(file_ids.index(file_id) + 1) + '/' + str(len(file_ids)), end=' ')
         raw_t_hr, raw_hr, raw_spo2, t_sig, hr, spo2 = pp.patient_sig(file_id)
         # computing the raw and processed hr and spo2 signals
         epochs = ts.new_sliding_window_array(t_sig, WINDOW, EPOCH)
@@ -212,24 +216,6 @@ def make_feature_all(features, train_test):
             all_feature_wa.append(item)
     print('\nlen all_features_a = ' + str(len(all_feature_a)))
     print('len all_features_wa = ' + str(len(all_feature_wa)))
-    return all_feature_a, all_feature_wa
-
-
-def old_make_feature_all(feature, sig_type):
-    # version where only one feature can be computed
-    all_feature_a, all_feature_wa = [], []
-    for file_id in FILE_IDs:
-        start = time()
-        raw_t, raw_hr, t, hr = pp.one_patient_sig(file_id, sig_type)
-        epochs = ts.new_sliding_window_array(t, WINDOW, EPOCH)
-        print('epochs of ' + str(file_id) + ' : ' + str(epochs))
-        feat_a, feat_wa = compute_features(file_id, epochs, hr, t, feature)
-        # feat_a : with apnea, feat_wa : without apnea
-        for item in feat_a:
-            all_feature_a.append(item)
-        for item in feat_wa:
-            all_feature_wa.append(item)
-        print(str(file_id) + ' : ' + str(time() - start) + 's')
     return all_feature_a, all_feature_wa
 
 
@@ -264,6 +250,3 @@ FEATURES = [(low_freq_energy, 'HR'), (low_freq_energy, 'SpO2'), (very_low_freq_e
             (very_low_freq_energy, 'SpO2'), (min_val, 'HR'), (min_val, 'SpO2'), (max_val, 'HR'),
             (stand_dev, 'HR'), (stand_dev, 'SpO2'), (sample_entropy, 'HR'),
             (sample_entropy, 'SpO2')]
-
-# [low_freq_energy, very_low_freq_energy, , min_val, max_val, average, median, stand_dev,
-# n_times_when_under_threshold, approximate_entropy, sample_entropy]
